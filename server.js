@@ -7,10 +7,10 @@ var PORT = process.env.PORT || 3000;
 const db = knex({
   client: 'pg',
   connection: {
-    host : 'ec2-52-22-216-69.compute-1.amazonaws.com',
-    user : 'isinpfxjpxxpzu',
+    host : '127.0.0.1',
+    user : 'postgres',
     password : '1234',
-    database : 'da2k85fucu55ur'
+    database : 'manager'
   }
 });
 app.use(bodyParser.urlencoded({extended:false}));
