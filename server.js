@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const knex = require('knex');
 const bcrypt = require('bcrypt-nodejs');
 const app = express();
-var port = process.env.PORT || 3000;
+var PORT = process.env.PORT || 3000;
 const db = knex({
   client: 'pg',
   connection: {
@@ -95,4 +95,4 @@ app.use(bodyParser.json());
      });
 
 
-app.listen(port,()=>{console.log('server is running on port '+port);});
+app.listen(PORT,()=>{console.log('server is running on port '+PORT);});
