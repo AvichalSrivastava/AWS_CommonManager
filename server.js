@@ -46,10 +46,9 @@ app.use(bodyParser.json());
       const{username,email,password,phone}= req.body;
       let hash = bcrypt.hashSync(password);
       db.select('email').from('cm_user').where('email','=',email).then(data =>{
-        console.log(data[0]);
         if(data[0] != null)
         {
-          res.json("Already registered");       
+          res.json("Already registered");
         }
          else
          {
