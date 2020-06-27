@@ -45,14 +45,7 @@ app.use(bodyParser.json());
     {
       const{username,email,password,phone}= req.body;
       let hash = bcrypt.hashSync(password);
-      db.select('email').from('cm_user').where('email','=',email).then(data =>{
-        if(data[0] != null)
-        {
-          res.json("Already registered");
-        }
-         else
-         {
-           db.transaction(trx =>{
+      db.transaction(trx =>{
            trx.insert({
              username:username,
              email: email,
@@ -75,8 +68,8 @@ app.use(bodyParser.json());
                .catch(trx.rollback)
            }).catch(err => {res.status(400).json("unable to register user")});
 
-         }
-      }).catch(()=> res.status(400).json("error"));
+
+
     });
 
     //profile api
