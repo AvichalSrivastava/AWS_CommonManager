@@ -14,6 +14,10 @@ const db = knex({
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
+   //testing connection
+   app.get('/', (req,res)=>{
+     res.json("successfully connected to the server");
+   });
     //login API
     app.post('/api/login', (req,res)=>{
       const{email,password}= req.body;
