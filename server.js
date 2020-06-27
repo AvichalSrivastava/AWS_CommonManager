@@ -7,17 +7,14 @@ var PORT = process.env.PORT || 3000;
 const db = knex({
   client: 'pg',
   connection: {
-    host : '127.0.0.1',
-    user : 'postgres',
-    password : '1234',
-    database : 'manager'
+    connectionString : 'postgresql-elliptical-12739',
+    ssl: true
   }
 });
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
     //login API
-
     app.post('/api/login', (req,res)=>{
       const{email,password}= req.body;
       db.select('*').from('cm_user').where('email','=',email).then(data=>
