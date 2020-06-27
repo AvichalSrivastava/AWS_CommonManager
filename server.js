@@ -8,7 +8,7 @@ const db = knex({
   client: 'pg',
   connection: {
     connectionString : 'postgresql-elliptical-12739',
-    ssl: true
+    ssl: false
   }
 });
 app.use(bodyParser.urlencoded({extended:false}));
