@@ -47,7 +47,7 @@ app.use(bodyParser.json());
       let hash = bcrypt.hashSync(password);
       db.select('email').from('cm_user').where('email','=',email).then(data =>{
         console.log(data[0]);
-        if(data[0] == null)
+        if(data[0] === null)
         {
             db.transaction(trx =>{
             trx.insert({
