@@ -45,30 +45,38 @@ app.use(bodyParser.json());
     {
       const{username,email,password,phone}= req.body;
       let hash = bcrypt.hashSync(password);
-      db.transaction(trx =>{
-           trx.insert({
-             username:username,
-             email: email,
-             password : hash,
-             created_on: new Date()
-           })
-           .into('cm_user')
-           .returning(['email','user_id'])
-           .then(data =>
-             {
-               return trx('cm_profile')
-               .returning('*')
-               .insert({
-                 user_id: data[0].user_id,
-                 phone: phone,
-                 email: data[0].email
-               }).then(user => {res.json(user[0])})
-               })
-               .then(trx.commit)
-               .catch(trx.rollback)
-           }).catch(err => {res.status(400).json("unable to register user")});
-
-
+      db.select('email').from('cm_user').where('email','=',email)
+      .then( data=>{
+          if(data[0] != null)
+          {
+            res.json("Already registered.")
+          }
+          else
+          {
+            db.transaction(trx =>{
+                 trx.insert({
+                   username:username,
+                   email: email,
+                   password : hash,
+                   created_on: new Date()
+                 })
+                 .into('cm_user')
+                 .returning(['email','user_id'])
+                 .then(data =>
+                   {
+                     return trx('cm_profile')
+                     .returning('*')
+                     .insert({
+                       user_id: data[0].user_id,
+                       phone: phone,
+                       email: data[0].email
+                     }).then(user => {res.json(user[0])})
+                     })
+                     .then(trx.commit)
+                     .catch(trx.rollback)
+            }).catch(err => {res.status(400).json("unable to register user")});
+          }
+      }).catch(()=> res.status(400).json("Error! Try again later."));
 
     });
 
